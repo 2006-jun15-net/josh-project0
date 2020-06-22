@@ -6,9 +6,16 @@ namespace Project0
         private string productID { get; }
         private string productDescription { get; }
 
-        public Product(string productDescription)
-        {
+        private double productPrice { get; set; }
 
+        public Product(string description, double price)
+        {
+            productID = _productIDSeed.ToString();
+            _productIDSeed++;
+
+            productDescription = description;
+
+            productPrice = price;
         }
     }
 }

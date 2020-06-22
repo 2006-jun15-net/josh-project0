@@ -12,14 +12,20 @@ namespace Project0
 
         public List<Order> orderHistory { get; set; }
 
-        public Customer(string newCustFirstName,string newCustLastName)
+        public Customer(string newCustFirstName, string newCustLastName)
         {
             firstName = newCustFirstName;
             lastName = newCustLastName;
             valuedCustomer = false;
-            // List<Order> orderHistory;
         }
 
+        //Add the 
+        public bool addOrderToHistory(Order order)
+        {
+
+            orderHistory.Add(order);
+            return true;
+        }
 
     }
 }
