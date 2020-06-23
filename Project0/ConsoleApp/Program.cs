@@ -16,7 +16,8 @@ namespace Project0
             Customer cust1 = new Customer("Josh", "Bertrand");
 
             Dictionary<Product, int> sampleProductInv = new Dictionary<Product, int>();
-            sampleProductInv.Add(product1, 1);
+            sampleProductInv.Add(product1, 2);
+            sampleProductInv.Add(product2, 1);
 
             StoreLocation store1 = new StoreLocation("Revature", "123 Here Street", sampleProductInv);
 
@@ -27,6 +28,8 @@ namespace Project0
             Order firstOrder = new Order(store1.storeName, cust1, orderList);
 
             WelcomeMessage();
+
+            firstOrder.checkout(store1, cust1, firstOrder);
         }
 
         public static void WelcomeMessage()

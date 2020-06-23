@@ -3,10 +3,10 @@ namespace Project0
     class Product
     {
         private static int _productIDSeed = 012345;
-        private string productID { get; }
-        private string productDescription { get; }
+        public string productID { get; }
+        public string productDescription { get; }
 
-        private double productPrice { get; set; }
+        public double productPrice { get; set; }
 
         public Product(string description, double price)
         {

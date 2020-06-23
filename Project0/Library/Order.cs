@@ -19,18 +19,21 @@ namespace Project0
             shoppingCart = cart;
         }
 
-        private bool checkout(List<Product> shoppingCart, StoreLocation store, Customer cust)
+        //The way that this method signature currently is suggests refactoring is needed
+        public bool checkout(StoreLocation store, Customer cust, Order order)
         {
 
             bool orderCompleted = false;
             
             //remove items in cart from storeInventory
-            store.fulfillOrder(shoppingCart);
+            store.fulfillOrder(shoppingCart, order);
 
             //set the orderTime for when the order processes
             orderTime = new DateTime();
 
             //add order to the orderHistory of the Customer and the StoreLocation
+            // store.addOrderToHistory(order);
+            // cust.addOrderToHistory(order);
 
             //return true if the order completed successfully. return false if not
             return orderCompleted;
