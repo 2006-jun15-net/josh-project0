@@ -25,10 +25,7 @@ namespace Project0
             bool orderCompleted = false;
             
             //remove items in cart from storeInventory
-            foreach(Product p in shoppingCart)
-            {
-                
-            }
+            store.fulfillOrder(shoppingCart);
 
             //set the orderTime for when the order processes
             orderTime = new DateTime();

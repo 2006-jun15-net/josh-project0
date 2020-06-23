@@ -24,22 +24,29 @@ namespace Project0
             return true;
         }
 
-        public bool removeItemFromInventory(Product key)
+        public void fulfillOrder(List<Product> cart)
         {
-            bool isSuccessful = false;
-            
-            if(inventory.GetValueOrDefault(key)>1)
+
+            foreach(Product prod in cart)
+            {
+                removeItemFromInventory(prod);
+            }
+
+        }
+        
+        private void removeItemFromInventory(Product key)
+        {
+            int currentValue;
+            if(inventory.TryGetValue(key, out currentValue))
             {
                 //decrement the value of the given key
-                isSuccessful = true;
+                inventory[key] = currentValue - 1;
             }
             else if(inventory.GetValueOrDefault(key)==1)
             {
                 inventory.Remove(key);
-                isSuccessful = true;
             }
-            
-            return isSuccessful;
+
         }
 
     }
