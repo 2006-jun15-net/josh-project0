@@ -9,6 +9,8 @@ namespace Project0
         {
             //https://github.com/2006-jun15-net/trainer-code/wiki/Project-0-requirements
 
+            WelcomeMessage();
+
             Product product1 = new Product("Pencils", 0.75);
             Product product2 = new Product("Eraser", 0.50);
             Product product3 = new Product("Pencil Case", 1.50);
@@ -27,7 +29,7 @@ namespace Project0
 
             Order firstOrder = new Order(store1.storeName, cust1, orderList);
 
-            WelcomeMessage();
+           
 
             firstOrder.checkout(store1, cust1, firstOrder);
         }

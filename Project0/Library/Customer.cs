@@ -5,9 +5,10 @@ namespace Project0
     class Customer 
     {
 
+        //Create a Customer interface, and extend two types of Customers from it, StandardCustomer and ValuedCustomer
+
         private string firstName { get; }
         private string lastName { get; }
-        private bool valuedCustomer { get; set; }
         // public int defaultStore { get; set; }
 
         public List<Order> orderHistory 
@@ -16,7 +17,7 @@ namespace Project0
             set
             {
                 {
-                    orderHistory = new List<Order>();
+                    
                 } 
             }
         }
@@ -25,7 +26,7 @@ namespace Project0
         {
             firstName = newCustFirstName;
             lastName = newCustLastName;
-            valuedCustomer = false;
+            orderHistory = new List<Order>();
         }
 
         //Add the 

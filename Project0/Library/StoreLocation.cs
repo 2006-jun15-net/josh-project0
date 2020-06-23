@@ -9,21 +9,14 @@ namespace Project0
         private string storeAddress { get; set; }
         private Dictionary<Product, int> inventory { get; set; }//current inventory. A Set may work a little better here. 
 
-        private List<Order> storeOrderHistory 
-        {
-            get{return storeOrderHistory;} 
-        
-            set
-            {
-                storeOrderHistory = new List<Order>();
-            }
-        }
+        private List<Order> storeOrderHistory { get; set; }
 
         public StoreLocation(string name, string address, Dictionary<Product, int> inv)
         {
             storeName = name;
             storeAddress = address;
             inventory = inv;
+            storeOrderHistory = new List<Order>();
         }
 
         public bool addOrderToHistory(Order order)
