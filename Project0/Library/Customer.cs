@@ -11,16 +11,7 @@ namespace Project0
         private string lastName { get; }
         // public int defaultStore { get; set; }
 
-        public List<Order> orderHistory 
-        { 
-            get{return orderHistory;} 
-            set
-            {
-                {
-                    
-                } 
-            }
-        }
+        public List<Order> orderHistory { get; set; }
 
         public Customer(string newCustFirstName, string newCustLastName)
         {
@@ -32,7 +23,6 @@ namespace Project0
         //Add the 
         public bool addOrderToHistory(Order order)
         {
-
             orderHistory.Add(order);
             return true;
         }

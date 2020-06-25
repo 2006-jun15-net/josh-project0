@@ -11,6 +11,7 @@ namespace Project0
 
             WelcomeMessage();
 
+            /*
             Product product1 = new Product("Pencils", 0.75);
             Product product2 = new Product("Eraser", 0.50);
             Product product3 = new Product("Pencil Case", 1.50);
@@ -21,7 +22,7 @@ namespace Project0
             sampleProductInv.Add(product1, 2);
             sampleProductInv.Add(product2, 1);
 
-            StoreLocation store1 = new StoreLocation("Revature", "123 Here Street", sampleProductInv);
+            StoreLocation store1 = new StoreLocation("Bookstore", "123 Here Street", sampleProductInv);
 
             List<Product> orderList = new List<Product>();
             orderList.Add(product1);
@@ -29,9 +30,8 @@ namespace Project0
 
             Order firstOrder = new Order(store1.storeName, cust1, orderList);
 
-           
-
             firstOrder.checkout(store1, cust1, firstOrder);
+            */
         }
 
         public static void WelcomeMessage()

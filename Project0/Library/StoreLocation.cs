@@ -19,22 +19,27 @@ namespace Project0
             storeOrderHistory = new List<Order>();
         }
 
-        public bool addOrderToHistory(Order order)
+        private void addOrderToHistory(Order order)
         {
             storeOrderHistory.Add(order);
-            return true;
         }
 
         public void fulfillOrder(List<Product> cart, Order order)
         {
-
-            foreach(Product prod in cart)
+            try //define exception here for if someone puts too many items in their cart. If there is an error, the order should not be processed.
             {
-                removeItemFromInventory(prod);
+                foreach(Product prod in cart)
+                {
+                    removeItemFromInventory(prod);
+                }
+
+                addOrderToHistory(order);
             }
-
-            // addOrderToHistory(order);
-
+            catch(Exception e)//define an actual exception here
+            {
+                Console.WriteLine("There was an error processing your order.");
+                Console.Write(e);
+            }
         }
 
         private void removeItemFromInventory(Product key)
@@ -50,17 +55,12 @@ namespace Project0
             else if(inventory.GetValueOrDefault(key)==1)
             {
                 inventory.Remove(key);
-                Console.WriteLine($"{key.productDescription} is out of stock");
+                Console.WriteLine($"{key.productDescription} is now out of stock");
             }
             else
             {
                 Console.WriteLine($"{key.productDescription} could not be found in the stockroom.");
             }
-
-        }
-
-        private void displayInventory()
-        {
 
         }
 
