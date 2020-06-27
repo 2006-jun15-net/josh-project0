@@ -5,45 +5,57 @@ namespace Project0
 {
     class StoreLocation
     {
-        public string storeName { get; set; }
+
+        private string storeId {get; set; }
+        private string storeName { get; set; }
         private string storeAddress { get; set; }
         private Dictionary<Product, int> inventory { get; set; }//current inventory. A Set may work a little better here. 
 
-        private List<Order> storeOrderHistory { get; set; }
-
         public StoreLocation(string name, string address, Dictionary<Product, int> inv)
         {
+            storeId = IdFactory.generateNewId();
             storeName = name;
             storeAddress = address;
-            inventory = inv;
-            storeOrderHistory = new List<Order>();
+            inventory = new Dictionary<Product, int>();
         }
 
-        private void addOrderToHistory(Order order)
-        {
-            storeOrderHistory.Add(order);
-        }
-
-        public void fulfillOrder(List<Product> cart, Order order)
+        public void fulfillOrder(Dictionary<string, int> cart)
         {
             try //define exception here for if someone puts too many items in their cart. If there is an error, the order should not be processed.
             {
-                foreach(Product prod in cart)
+                foreach(var prod in cart)
                 {
-                    removeItemFromInventory(prod);
+                    removeItemFromInventory(prod.Key);
                 }
-
-                addOrderToHistory(order);
             }
             catch(Exception e)//define an actual exception here
             {
                 Console.WriteLine("There was an error processing your order.");
                 Console.Write(e);
             }
+            finally
+            {
+                //put file/object closing code here
+            }
         }
 
-        private void removeItemFromInventory(Product key)
+        public void displayInventoryCatalog()
         {
+            
+        }
+
+        private void addOrderToHistory(Order order)
+        {
+            
+        }
+
+        private void removeItemFromInventory(string key)
+        {
+            //search through the Dictionary of products in the catelog
+
+
+
+            /*
             int currentValue;
             if(inventory.GetValueOrDefault(key) > 1)
             {
@@ -61,7 +73,8 @@ namespace Project0
             {
                 Console.WriteLine($"{key.productDescription} could not be found in the stockroom.");
             }
-
+            */
+            
         }
 
     }

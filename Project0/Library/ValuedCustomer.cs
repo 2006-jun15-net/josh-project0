@@ -1,8 +1,6 @@
-using System;
-
 namespace Project0
 {
-    class Customer : ICustomer
+    class ValuedCustomer : ICustomer
     {
 
         //Create a Customer interface, and extend two types of Customers from it, StandardCustomer and ValuedCustomer
@@ -10,12 +8,14 @@ namespace Project0
         public string firstName { get; set; }
         public string lastName { get; set; }
         // public int defaultStore { get; set; }
+        public int valuedCustomerDiscount { get; set; }//percentage discount
 
-        public Customer(string newCustFirstName, string newCustLastName)
+        public ValuedCustomer(string newCustFirstName, string newCustLastName)
         {
             customerId = IdFactory.generateNewId();
             firstName = newCustFirstName;
             lastName = newCustLastName;
+            valuedCustomerDiscount = 10;
         }
 
     }

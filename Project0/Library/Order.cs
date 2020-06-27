@@ -6,42 +6,39 @@ namespace Project0
     class Order
     {
         //orderID
-        private string storeLocation { get; }
-        private Customer customer { get; set; }
+        private string orderId {get;}
+        private string storeId { get; }
+        private string customerId { get; set; }
         private DateTime orderTime { get; set; }
-        private List<Product> shoppingCart;
+        private Dictionary<string, int> shoppingCart;// Change to Dictionary<string, int> too
 
         //ctor
-        public Order(string store, Customer cust)
+        public Order(string store, string cust)
         {
-            storeLocation = store;
-            customer = cust;
-            shoppingCart = new List<Product>();
+            storeId = store;
+            customerId = cust;
+            shoppingCart = new Dictionary<string, int>();//Change the List to take a dictionary of <string, int> instead.
         }
 
         //The way that this method signature currently is suggests refactoring is needed
         public bool checkout(StoreLocation store, Customer cust, Order order)
         {
-
-            bool orderCompleted = false;
-            
+            bool checkoutSuccessful = false;
             //set the orderTime for when the order processes
             orderTime = new DateTime();
 
             //remove items in cart from storeInventory
-            //add order to the orderHistory of the Customer and the StoreLocation
+            //add order details to the orderHistory             
+            return checkoutSuccessful;
+            /*
             store.fulfillOrder(shoppingCart, order);
-            cust.addOrderToHistory(order);
-
-            // if there are no errors, set orderCompleted to true
-            
-            //return true if the order completed successfully. return false if not
-            return orderCompleted;
+            */
         }
 
-        public void addToCart(Product item)
+        public void addToCart(Product item, int qty)
         {
-            shoppingCart.Add(item);
+            //get the ID or description of the product and the quantity desired. Add those values to to the cart 
+            shoppingCart.Add(item.productDescription, qty);
         }
 
     }
