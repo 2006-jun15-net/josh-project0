@@ -19,13 +19,24 @@ namespace Project0
             inventory = new Dictionary<Product, int>();
         }
 
-        public void fulfillOrder(Dictionary<string, int> cart)
+        public bool fulfillOrder(Dictionary<Product, int> cart)
         {
-            try //define exception here for if someone puts too many items in their cart. If there is an error, the order should not be processed.
+            bool orderFulfilled = false;
+
+            try 
             {
-                foreach(var prod in cart)
+                if(orderValid(cart))
                 {
-                    removeItemFromInventory(prod.Key);
+                    foreach(var prod in cart)
+                    {
+                        removeItemFromInventory(prod.Key);
+                        orderFulfilled = true;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid order");
+                    return orderFulfilled = false;
                 }
             }
             catch(Exception e)//define an actual exception here
@@ -33,49 +44,50 @@ namespace Project0
                 Console.WriteLine("There was an error processing your order.");
                 Console.Write(e);
             }
-            finally
-            {
-                //put file/object closing code here
-            }
+            return orderFulfilled;
         }
-
         public void displayInventoryCatalog()
         {
-            
+            foreach(var prod in inventory)
+            {
+                //print out the description (item name) and quantity
+                Console.WriteLine($"{prod.Key}\t|\t{prod.Value}");
+            }
         }
-
-        private void addOrderToHistory(Order order)
+        private bool orderValid(Dictionary<Product, int> cart)
         {
-            
-        }
+            bool isValid = false;
 
-        private void removeItemFromInventory(string key)
+            //check if the items in the cart are in the inventory and if there is a reasonable number of those items in the cart
+
+            foreach(var prod in cart)
+            {
+                if(inventory.ContainsKey(prod.Key) && prod.Value <= 10)// checks if the item is in the inventory, and if a reasonable amount is being ordered.
+                {
+                    isValid = true;
+                }
+                else
+                {
+                    return isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+        private void removeItemFromInventory(Product key)
         {
-            //search through the Dictionary of products in the catelog
-
-
-
-            /*
-            int currentValue;
-            if(inventory.GetValueOrDefault(key) > 1)
+            if(inventory.GetValueOrDefault(key) > 1)//Item has more than one in stock
             {
-                inventory.TryGetValue(key, out currentValue);
-                //decrement the value of the given key
-                inventory[key] = currentValue - 1;
-                Console.WriteLine($"Removed one {key.productDescription} from the inventory. {inventory[key]} remains in stock.");
+            //Remove quantity from inventory
             }
-            else if(inventory.GetValueOrDefault(key)==1)
+            else//Item has only one in stock
             {
-                inventory.Remove(key);
-                Console.WriteLine($"{key.productDescription} is now out of stock");
+            //Remove from inventory
             }
-            else
-            {
-                Console.WriteLine($"{key.productDescription} could not be found in the stockroom.");
-            }
-            */
-            
         }
+        // private void addItemToInventory(Product prod, int quantity)
+        // {
 
+        // }
     }
 }

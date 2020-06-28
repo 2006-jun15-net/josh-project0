@@ -9,7 +9,6 @@ namespace Project0
         public string customerId { get;}
         public string firstName { get; set; }
         public string lastName { get; set; }
-        // public int defaultStore { get; set; }
 
         public Customer(string newCustFirstName, string newCustLastName)
         {

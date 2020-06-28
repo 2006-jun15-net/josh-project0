@@ -11,6 +11,8 @@ namespace Project0
 
             WelcomeMessage();
 
+            initializeProgram();
+
             /*
             Product product1 = new Product("Pencils", 0.75);
             Product product2 = new Product("Eraser", 0.50);
@@ -38,6 +40,15 @@ namespace Project0
         {
             Console.WriteLine("\nWelcome to our Store!\n");
         }
+        public static void initializeProgram()
+        {
+
+        }
+
+        //add new customer
+
+        //
+        
 
     }
 }
