@@ -42,15 +42,15 @@ namespace Project0
 
             bool runProgram = true;
 
-            while(runProgram)
+            while (runProgram)
             {
                 DisplayMenu();
                 Console.Write("What would you like to do today? ");
                 var userInput = Console.ReadLine().ToLower();
 
-                if(ValidateMenuSelectionInput(userInput))
+                if (ValidateMenuSelectionInput(userInput))
                 {
-                    switch(userInput)
+                    switch (userInput)
                     {
                         case "a":
                             Console.Write("You have chosen to Add a new customer");
@@ -89,7 +89,7 @@ namespace Project0
             //display order details
             //display order history of store
             //display order history of customer
-            
+
         }
 
         private static void GoodbyeMessage()
@@ -135,12 +135,12 @@ namespace Project0
         {
             bool isValid;
 
-            switch(input)
+            switch (input)
             {
                 case "a":
                     isValid = true;
                     break;
-                case "d": 
+                case "d":
                     isValid = true;
                     break;
                 case "p":
@@ -159,20 +159,41 @@ namespace Project0
 
             return isValid;
         }
-        private static int ChooseStoreLocation(List<StoreLocation> stores)
+        private static string ChooseStoreLocation(List<StoreLocation> stores)
         {
             string storeChoice;
             //display available stores
-            Console.Write("Which store would you like to place your order from? ");
-            storeChoice = Console.ReadLine();
+            bool validStore = false;
+            List<string> storeIds = new List<string>();
 
-            foreach(var store in stores)
+            do
             {
+                foreach (var store in stores)
+                {
+                    Console.WriteLine(store.StoreId);
+                    storeIds.Add(store.StoreId);
+                }
 
-            }
+                Console.Write("Which store would you like to place your order from? ");
+                storeChoice = Console.ReadLine();
 
-            return 0;
+                if(storeIds.Contains(storeChoice))
+                {
+                    validStore = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid store selected.");
+                }
+
+            } while (!validStore);
+
+            return storeChoice;
         }
-
+        private static string ChooseCustomer(List<Customer> customers)
+        {
+            string customerChoice = "";
+            return customerChoice;
+        }
     }
 }
