@@ -25,6 +25,12 @@ namespace Project0
             shoppingCart = new Dictionary<Product, int>();
         }
 
+        /// <summary>
+        /// Finish shopping and process the items in the cart. 
+        /// </summary>
+        /// <param name="store"></param>
+        /// <param name="cust"></param>
+        /// <returns></returns>
         public bool Checkout(StoreLocation store, Customer cust)
         {
             bool checkoutSuccessful;
@@ -43,6 +49,11 @@ namespace Project0
             return checkoutSuccessful;
         }
 
+        /// <summary>
+        /// Add an item by quantity to the cart. If the item is already in the cart, it should just be incremented by the quantity instead.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="qty"></param>
         public void AddToCart(Product item, int qty)
         {
             //get the ID or description of the product and the quantity desired. Add those values to to the cart 
@@ -53,7 +64,10 @@ namespace Project0
         {
             throw new NotImplementedException();
         }
-
+        
+        /// <summary>
+        /// Display all items and quantities in the order.
+        /// </summary>
         internal void DisplayOrderDetails()
         {
             throw new NotImplementedException();

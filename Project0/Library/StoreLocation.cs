@@ -11,6 +11,11 @@ namespace Project0
         public string StoreAddress { get; set; }
         private Dictionary<Product, int> Inventory { get; set; }//current inventory. A Set may work a little better here. 
 
+        /// <summary>
+        /// Constructor for a store without an inventory
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="address"></param>
         public StoreLocation(string name, string address)
         {
             StoreId = IdFactory.generateNewId();
@@ -19,6 +24,12 @@ namespace Project0
             Inventory = new Dictionary<Product, int>();
         }
 
+        /// <summary>
+        /// Constructor for a store with a pre-defined inventory
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="address"></param>
+        /// <param name="inv"></param>
         public StoreLocation(string name, string address, Dictionary<Product, int> inv)
         {
             StoreId = IdFactory.generateNewId();
@@ -27,6 +38,11 @@ namespace Project0
             Inventory = inv;
         }
 
+        /// <summary>
+        /// Process the order, ensure it is valid, and the store can fulfill the requested amount of products with its current stock
+        /// </summary>
+        /// <param name="cart"></param>
+        /// <returns></returns>
         public bool FulfillOrder(Dictionary<Product, int> cart)
         {
             bool orderFulfilled = false;
@@ -49,6 +65,10 @@ namespace Project0
            
             return orderFulfilled;
         }
+
+        /// <summary>
+        /// Display the items and quantities in the shop inventory
+        /// </summary>
         public void DisplayInventoryCatalog()
         {
             foreach(var prod in Inventory)
@@ -57,6 +77,11 @@ namespace Project0
                 Console.WriteLine($"{prod.Key}\t|\t{prod.Value}");
             }
         }
+        /// <summary>
+        /// Helper method to check if the order is valid and the store can fulfill the order
+        /// </summary>
+        /// <param name="cart"></param>
+        /// <returns></returns>
         private bool OrderValid(Dictionary<Product, int> cart)
         {
             bool isValid = false;
@@ -77,6 +102,10 @@ namespace Project0
 
             return isValid;
         }
+        /// <summary>
+        /// Remove an item from the inventory. If there are more than one of that item, decrement its quantity. If there is only one, remove it from the inventory completely.
+        /// </summary>
+        /// <param name="key"></param>
         private void RemoveItemFromInventory(Product key)
         {
             if(Inventory.GetValueOrDefault(key) > 1)//Item has more than one in stock
