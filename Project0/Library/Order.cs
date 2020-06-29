@@ -77,7 +77,7 @@ namespace Project0
 
             if (shoppingCart.Count > 0)
             {
-                Console.WriteLine($"Product \t | quantity");
+                Console.WriteLine($"Items in your shopping cart:\nProduct \t | quantity");
                 foreach (var item in shoppingCart)
                 {
                     Console.WriteLine($"{item.Key.ProductDescription}\t |{item.Value}");

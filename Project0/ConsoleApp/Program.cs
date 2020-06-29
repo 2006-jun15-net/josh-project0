@@ -54,7 +54,8 @@ namespace Project0
                     {
                         case "a":
                             Console.Write("You have chosen to Add a new customer");
-                            AddCustomer();
+                            customers.Add(AddCustomer());
+                            Console.Write("New customer successfully added.");
                             break;
                         case "d":
                             Console.Write("You have chosen to display order details");
@@ -101,9 +102,18 @@ namespace Project0
             throw new NotImplementedException();
         }
 
-        private static void AddCustomer()
+        private static Customer AddCustomer()
         {
-            throw new NotImplementedException();
+            //get first and last name
+
+            Console.Write("Please enter the given name of the new customer: ");
+            string firstName = Console.ReadLine();
+            Console.Write("Please enter the given name of the new customer: ");
+            string lastName = Console.ReadLine();
+
+            Customer newCustomer = new Customer(firstName, lastName);
+
+            return newCustomer;
         }
 
         private static void DisplayMenu()
