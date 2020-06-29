@@ -6,7 +6,7 @@ namespace Project0
     class Order
     {
         //orderID
-        public string OrderId {get;}
+        public string OrderId { get; }
         private string StoreId { get; }
         private string CustomerId { get; set; }
         private DateTime OrderTime { get; set; }
@@ -33,17 +33,25 @@ namespace Project0
         /// <returns></returns>
         public bool Checkout(StoreLocation store, Customer cust)
         {
-            bool checkoutSuccessful;
+            bool checkoutSuccessful = false;
             //set the orderTime for when the order processes
-            OrderTime = new DateTime();
 
-            checkoutSuccessful = store.FulfillOrder(shoppingCart);
-
-                       
-            if(checkoutSuccessful)
+            if (shoppingCart.Count > 0)
             {
-                //add order to history if successful
+                OrderTime = new DateTime();
 
+                checkoutSuccessful = store.FulfillOrder(shoppingCart);
+
+
+                if (checkoutSuccessful)
+                {
+                    //add order to history if successful
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("There are no items in your shopping cart.");
             }
 
             return checkoutSuccessful;
@@ -60,17 +68,24 @@ namespace Project0
             shoppingCart.Add(item, qty);
         }
 
-        internal void PlaceNewOrder()
-        {
-            throw new NotImplementedException();
-        }
-        
         /// <summary>
         /// Display all items and quantities in the order.
         /// </summary>
         internal void DisplayOrderDetails()
         {
-            throw new NotImplementedException();
+
+            if (shoppingCart.Count > 0)
+            {
+                Console.WriteLine($"Product \t | quantity");
+                foreach (var item in shoppingCart)
+                {
+                    Console.WriteLine($"{item.Key.ProductDescription}\t |{item.Value}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("You have no items in your shopping cart.");
+            }
         }
         //public void RemoveFromCart(Product item, int qty){}
     }

@@ -11,9 +11,11 @@ namespace Project0
 
             WelcomeMessage();
 
+            //Sample data
             List<Product> products = new List<Product>();
             List<Customer> customers = new List<Customer>();
             List<Order> orders = new List<Order>();
+            List<StoreLocation> stores = new List<StoreLocation>();
 
             Product product1 = new Product("Pencils", 0.75);
             Product product2 = new Product("Eraser", 0.50);
@@ -32,12 +34,15 @@ namespace Project0
             sampleProductInv.Add(product2, 1);
 
             StoreLocation store1 = new StoreLocation("Bookstore", "123 Here Street", sampleProductInv);
+            stores.Add(store1);
 
             Order order = new Order();
             // bool isSuccessful;
             // isSuccessful = firstOrder.Checkout(store1, cust1);
 
-            while(true)
+            bool runProgram = true;
+
+            while(runProgram)
             {
                 DisplayMenu();
                 Console.Write("What would you like to do today? ");
@@ -57,11 +62,15 @@ namespace Project0
                             break;
                         case "p":
                             Console.Write("You have chosen to place a new order");
-                            order.PlaceNewOrder();
+                            //order.Checkout();
                             break;
                         case "s":
                             Console.Write("You have chosen to search for a customer");
                             SearchForCustomer();
+                            break;
+                        case "x":
+                            Console.Write("You have chosen to Exit program");
+                            runProgram = false;
                             break;
                     }
                 }
@@ -71,6 +80,8 @@ namespace Project0
                 }
             }
 
+            GoodbyeMessage();
+
             //place order
             //add customer
             //search customers
@@ -78,6 +89,11 @@ namespace Project0
             //display order history of store
             //display order history of customer
             
+        }
+
+        private static void GoodbyeMessage()
+        {
+            Console.WriteLine("\nThank you for vistit our store. Please come again!");
         }
 
         private static void SearchForCustomer()
@@ -122,6 +138,9 @@ namespace Project0
                 case "s":
                     isValid = true;
                     break;
+                case "x":
+                    isValid = true;
+                    break;
                 default:
                     isValid = false;
                     break;
@@ -129,12 +148,17 @@ namespace Project0
 
             return isValid;
         }
-        private static int ChooseStoreLocation()
+        private static int ChooseStoreLocation(List<StoreLocation> stores)
         {
             string storeChoice;
             //display available stores
             Console.Write("Which store would you like to place your order from? ");
             storeChoice = Console.ReadLine();
+
+            foreach(var store in stores)
+            {
+
+            }
 
             return 0;
         }
