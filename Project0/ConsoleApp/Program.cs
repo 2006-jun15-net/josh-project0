@@ -33,7 +33,7 @@ namespace Project0
 
             StoreLocation store1 = new StoreLocation("Bookstore", "123 Here Street", sampleProductInv);
 
-            Order order = new Order();
+            `Order order = new Order();
             // bool isSuccessful;
             // isSuccessful = firstOrder.Checkout(store1, cust1);
 
@@ -49,23 +49,19 @@ namespace Project0
                     {
                         case "a":
                             Console.Write("You have chosen to Add a new customer");
-                            
+                            AddCustomer();
                             break;
                         case "d":
                             Console.Write("You have chosen to display order details");
-                           
+                            order.DisplayOrderDetails();
                             break;
                         case "p":
                             Console.Write("You have chosen to place a new order");
-
-                                order.PlaceNewOrder();
+                            order.PlaceNewOrder();
                             break;
                         case "s":
                             Console.Write("You have chosen to search for a customer");
-                            
-                            break;
-                        default:
-                            
+                            SearchForCustomer();
                             break;
                     }
                 }
@@ -82,6 +78,16 @@ namespace Project0
             //display order history of store
             //display order history of customer
             
+        }
+
+        private static void SearchForCustomer()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void AddCustomer()
+        {
+            throw new NotImplementedException();
         }
 
         private static void DisplayMenu()

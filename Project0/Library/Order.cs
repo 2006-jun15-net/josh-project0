@@ -53,6 +53,11 @@ namespace Project0
         {
             throw new NotImplementedException();
         }
+
+        internal void DisplayOrderDetails()
+        {
+            throw new NotImplementedException();
+        }
         //public void RemoveFromCart(Product item, int qty){}
     }
 }
