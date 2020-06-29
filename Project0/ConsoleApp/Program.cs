@@ -69,7 +69,7 @@ namespace Project0
                             SearchForCustomer();
                             break;
                         case "x":
-                            Console.Write("You have chosen to Exit program");
+                            Console.Write("You have chosen to Exit the program");
                             runProgram = false;
                             break;
                     }
@@ -93,7 +93,7 @@ namespace Project0
 
         private static void GoodbyeMessage()
         {
-            Console.WriteLine("\nThank you for vistit our store. Please come again!");
+            Console.WriteLine("\nThank you for visting our store. Please come again!");
         }
 
         private static void SearchForCustomer()
@@ -108,19 +108,20 @@ namespace Project0
 
         private static void DisplayMenu()
         {
-            Console.WriteLine("\nOperations available are: ");
+            Console.WriteLine("\n\nOperations available are: ");
             Console.WriteLine("-------------------------");
             Console.Write("a | Add a new customer\n");
             Console.Write("d | Display order details\n");
             Console.Write("p | Place a new order\n");
             Console.Write("s | Search for a customer\n");
+            Console.Write("x | Exit the program\n");
         }
 
-        public static void WelcomeMessage()
+        private static void WelcomeMessage()
         {
             Console.WriteLine("\nWelcome to our Store!\n");
         }
-        public static bool ValidateMenuSelectionInput(string input)
+        private static bool ValidateMenuSelectionInput(string input)
         {
             bool isValid;
 

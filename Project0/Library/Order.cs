@@ -45,6 +45,7 @@ namespace Project0
 
                 if (checkoutSuccessful)
                 {
+                    //create the order through the repo
                     //add order to history if successful
 
                 }
