@@ -6,47 +6,53 @@ namespace Project0
     class Order
     {
         //orderID
-        private string orderId {get;}
-        private string storeId { get; }
-        private string customerId { get; set; }
-        private DateTime orderTime { get; set; }
-        private Dictionary<Product, int> shoppingCart;// Change to Dictionary<string, int> too
+        public string OrderId {get;}
+        private string StoreId { get; }
+        private string CustomerId { get; set; }
+        private DateTime OrderTime { get; set; }
+
+        public Dictionary<Product, int> shoppingCart;
 
         //ctor
+        public Order()
+        {
+            shoppingCart = new Dictionary<Product, int>();
+        }
         public Order(string store, string cust)
         {
-            storeId = store;
-            customerId = cust;
-            shoppingCart = new Dictionary<Product, int>();//Change the List to take a dictionary of <string, int> instead.
+            StoreId = store;
+            CustomerId = cust;
+            shoppingCart = new Dictionary<Product, int>();
         }
 
-        //The way that this method signature currently is suggests refactoring is needed
-        public bool checkout(StoreLocation store, Customer cust, Order order)
+        public bool Checkout(StoreLocation store, Customer cust)
         {
-            bool checkoutSuccessful = false;
+            bool checkoutSuccessful;
             //set the orderTime for when the order processes
-            orderTime = new DateTime();
+            OrderTime = new DateTime();
 
-            checkoutSuccessful = store.fulfillOrder(shoppingCart);
+            checkoutSuccessful = store.FulfillOrder(shoppingCart);
 
                        
             if(checkoutSuccessful)
             {
                 //add order to history if successful
+
             }
 
             return checkoutSuccessful;
         }
 
-        public void addToCart(Product item, int qty)
+        public void AddToCart(Product item, int qty)
         {
             //get the ID or description of the product and the quantity desired. Add those values to to the cart 
             shoppingCart.Add(item, qty);
         }
-        public void removeFromCart(Product item, int qty)
-        {
-            
-        }
 
+        internal void PlaceNewOrder()
+        {
+            throw new NotImplementedException();
+        }
+        //public void RemoveFromCart(Product item, int qty){}
     }
 }

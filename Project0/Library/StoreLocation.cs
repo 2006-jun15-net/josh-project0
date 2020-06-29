@@ -6,55 +6,58 @@ namespace Project0
     class StoreLocation
     {
 
-        private string storeId {get; set; }
-        private string storeName { get; set; }
-        private string storeAddress { get; set; }
-        private Dictionary<Product, int> inventory { get; set; }//current inventory. A Set may work a little better here. 
+        public string StoreId {get; set; }
+        public string StoreName { get; set; }
+        public string StoreAddress { get; set; }
+        private Dictionary<Product, int> Inventory { get; set; }//current inventory. A Set may work a little better here. 
+
+        public StoreLocation(string name, string address)
+        {
+            StoreId = IdFactory.generateNewId();
+            StoreName = name;
+            StoreAddress = address;
+            Inventory = new Dictionary<Product, int>();
+        }
 
         public StoreLocation(string name, string address, Dictionary<Product, int> inv)
         {
-            storeId = IdFactory.generateNewId();
-            storeName = name;
-            storeAddress = address;
-            inventory = new Dictionary<Product, int>();
+            StoreId = IdFactory.generateNewId();
+            StoreName = name;
+            StoreAddress = address;
+            Inventory = inv;
         }
 
-        public bool fulfillOrder(Dictionary<Product, int> cart)
+        public bool FulfillOrder(Dictionary<Product, int> cart)
         {
             bool orderFulfilled = false;
 
-            try 
+            
+            if(OrderValid(cart))
             {
-                if(orderValid(cart))
+                foreach(var prod in cart)
                 {
-                    foreach(var prod in cart)
-                    {
-                        removeItemFromInventory(prod.Key);
-                        orderFulfilled = true;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid order");
-                    return orderFulfilled = false;
+                    RemoveItemFromInventory(prod.Key);
+                    orderFulfilled = true;
                 }
             }
-            catch(Exception e)//define an actual exception here
+            else
             {
-                Console.WriteLine("There was an error processing your order.");
-                Console.Write(e);
+                Console.WriteLine("Invalid order. Your order could not be processed at our store.");
+                return orderFulfilled = false;
             }
+        
+           
             return orderFulfilled;
         }
-        public void displayInventoryCatalog()
+        public void DisplayInventoryCatalog()
         {
-            foreach(var prod in inventory)
+            foreach(var prod in Inventory)
             {
                 //print out the description (item name) and quantity
                 Console.WriteLine($"{prod.Key}\t|\t{prod.Value}");
             }
         }
-        private bool orderValid(Dictionary<Product, int> cart)
+        private bool OrderValid(Dictionary<Product, int> cart)
         {
             bool isValid = false;
 
@@ -62,7 +65,7 @@ namespace Project0
 
             foreach(var prod in cart)
             {
-                if(inventory.ContainsKey(prod.Key) && prod.Value <= 10)// checks if the item is in the inventory, and if a reasonable amount is being ordered.
+                if(Inventory.ContainsKey(prod.Key) && prod.Value <= 10)// checks if the item is in the inventory, and if a reasonable amount is being ordered.
                 {
                     isValid = true;
                 }
@@ -74,9 +77,9 @@ namespace Project0
 
             return isValid;
         }
-        private void removeItemFromInventory(Product key)
+        private void RemoveItemFromInventory(Product key)
         {
-            if(inventory.GetValueOrDefault(key) > 1)//Item has more than one in stock
+            if(Inventory.GetValueOrDefault(key) > 1)//Item has more than one in stock
             {
             //Remove quantity from inventory
             }

@@ -13,6 +13,7 @@ namespace Project0
 
             List<Product> products = new List<Product>();
             List<Customer> customers = new List<Customer>();
+            List<Order> orders = new List<Order>();
 
             Product product1 = new Product("Pencils", 0.75);
             Product product2 = new Product("Eraser", 0.50);
@@ -32,12 +33,47 @@ namespace Project0
 
             StoreLocation store1 = new StoreLocation("Bookstore", "123 Here Street", sampleProductInv);
 
-            Order newOrder = new Order(store1.StoreId, cust1.customerId);
+            Order order = new Order();
+            // bool isSuccessful;
+            // isSuccessful = firstOrder.Checkout(store1, cust1);
 
-            Order firstOrder = new Order(store1.StoreId, cust1.customerId);
+            while(true)
+            {
+                DisplayMenu();
+                Console.Write("What would you like to do today? ");
+                var userInput = Console.ReadLine().ToLower();
 
-            bool isSuccessful;
-            isSuccessful = firstOrder.Checkout(store1, cust1);
+                if(ValidateMenuSelectionInput(userInput))
+                {
+                    switch(userInput)
+                    {
+                        case "a":
+                            Console.Write("You have chosen to Add a new customer");
+                            
+                            break;
+                        case "d":
+                            Console.Write("You have chosen to display order details");
+                           
+                            break;
+                        case "p":
+                            Console.Write("You have chosen to place a new order");
+
+                                order.PlaceNewOrder();
+                            break;
+                        case "s":
+                            Console.Write("You have chosen to search for a customer");
+                            
+                            break;
+                        default:
+                            
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nSorry, that is not a valid input. Please enter a valid option.");
+                }
+            }
 
             //place order
             //add customer
@@ -48,15 +84,54 @@ namespace Project0
             
         }
 
+        private static void DisplayMenu()
+        {
+            Console.WriteLine("\nOperations available are: ");
+            Console.WriteLine("-------------------------");
+            Console.Write("a | Add a new customer\n");
+            Console.Write("d | Display order details\n");
+            Console.Write("p | Place a new order\n");
+            Console.Write("s | Search for a customer\n");
+        }
+
         public static void WelcomeMessage()
         {
             Console.WriteLine("\nWelcome to our Store!\n");
         }
+        public static bool ValidateMenuSelectionInput(string input)
+        {
+            bool isValid;
 
-        //add new customer
+            switch(input)
+            {
+                case "a":
+                    isValid = true;
+                    break;
+                case "d": 
+                    isValid = true;
+                    break;
+                case "p":
+                    isValid = true;
+                    break;
+                case "s":
+                    isValid = true;
+                    break;
+                default:
+                    isValid = false;
+                    break;
+            }
 
-        //
-        
+            return isValid;
+        }
+        private static int ChooseStoreLocation()
+        {
+            string storeChoice;
+            //display available stores
+            Console.Write("Which store would you like to place your order from? ");
+            storeChoice = Console.ReadLine();
+
+            return 0;
+        }
 
     }
 }
