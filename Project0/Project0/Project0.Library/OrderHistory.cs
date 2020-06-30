@@ -1,8 +1,9 @@
+using Project0.Library;
 using System.Collections.Generic;
 
-namespace Project0
+namespace Project0.Library
 {
-    class OrderHistory
+    public class OrderHistory
     {
         public string CustomerId { get; set; }
         public string StoreId { get; set; }

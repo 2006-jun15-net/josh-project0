@@ -1,9 +1,10 @@
+using Project0.Library;
 using System;
 using System.Collections.Generic;
 
-namespace Project0
+namespace Project0.Library
 {
-    class StoreLocation
+    public class StoreLocation
     {
 
         public string StoreId {get; set; }
@@ -108,13 +109,27 @@ namespace Project0
         /// <param name="key"></param>
         private void RemoveItemFromInventory(Product key)
         {
-            if(Inventory.GetValueOrDefault(key) > 1)//Item has more than one in stock
+            try
             {
-            //Remove quantity from inventory
+                if (Inventory.TryGetValue(key, out int value))//Item has more than one in stock
+                {
+                    if(value > 1) 
+                    { 
+                        //decrement
+                    }
+                    else
+                    {
+                        //remove
+                    }
+                }
+                else//item not in inventory
+                {
+                    
+                }
             }
-            else//Item has only one in stock
+            catch(InvalidOperationException e)
             {
-            //Remove from inventory
+                Console.WriteLine("Error processing request. ");
             }
         }
         // private void addItemToInventory(Product prod, int quantity)

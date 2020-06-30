@@ -1,6 +1,6 @@
-namespace Project0
+namespace Project0.Library
 {
-    class ValuedCustomer : ICustomer
+    public class ValuedCustomer : ICustomer
     {
 
         //Create a Customer interface, and extend two types of Customers from it, StandardCustomer and ValuedCustomer

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Project0
+namespace Project0.Library
 {
-    class Order
+    public class Order
     {
         //orderID
         public string OrderId { get; }
@@ -72,7 +72,7 @@ namespace Project0
         /// <summary>
         /// Display all items and quantities in the order.
         /// </summary>
-        internal void DisplayOrderDetails()
+        public void DisplayOrderDetails()
         {
 
             if (shoppingCart.Count > 0)

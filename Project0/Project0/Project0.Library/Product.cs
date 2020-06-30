@@ -1,6 +1,6 @@
-namespace Project0
+namespace Project0.Library
 {
-    class Product
+    public class Product
     {
         public string ProductID { get; }
         public string ProductDescription { get; }

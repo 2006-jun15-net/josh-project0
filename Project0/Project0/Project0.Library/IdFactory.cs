@@ -1,10 +1,10 @@
 using System;
 
-namespace Project0
+namespace Project0.Library
 {
     internal static class IdFactory
     {
-        private static int _productIDSeed = 0123456789;//save IDseed to begin seed where it was left between program runs
+        private static int _productIDSeed = 0123;//save IDseed to begin seed where it was left between program runs
         /// <summary>
         /// Generate a unique ID when called. Seed should be persistant between runs of the program. 
         /// </summary>

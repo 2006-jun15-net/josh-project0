@@ -1,4 +1,4 @@
-namespace Project0
+namespace Project0.Library
 {
     internal interface ICustomer
     {
