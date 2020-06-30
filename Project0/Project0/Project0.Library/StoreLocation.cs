@@ -129,7 +129,7 @@ namespace Project0.Library
             }
             catch(InvalidOperationException e)
             {
-                Console.WriteLine("Error processing request. ");
+                Console.WriteLine($"Error processing request. \n{e}");
             }
         }
         // private void addItemToInventory(Product prod, int quantity)
