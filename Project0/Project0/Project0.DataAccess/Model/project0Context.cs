@@ -16,16 +16,17 @@ namespace Project0.DataAccess.Model
         }
 
         public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<OrderHistory> OrderHistory { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Store> Store { get; set; }
+        public virtual DbSet<StoreInventory> StoreInventory { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.Property(e => e.CustomerId)
-                    .HasColumnName("customerId")
-                    .HasMaxLength(10);
+                entity.Property(e => e.CustomerId).HasColumnName("customerId");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -38,11 +39,35 @@ namespace Project0.DataAccess.Model
                     .HasMaxLength(30);
             });
 
+            modelBuilder.Entity<OrderHistory>(entity =>
+            {
+                entity.Property(e => e.CustomerId).HasColumnName("customerId");
+
+                entity.Property(e => e.OrderId).HasColumnName("orderId");
+
+                entity.Property(e => e.ProductId).HasColumnName("productId");
+
+                entity.Property(e => e.StoreId).HasColumnName("storeId");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.OrderHistory)
+                    .HasForeignKey(d => d.CustomerId)
+                    .HasConstraintName("FK_CUSTOMER_ID");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.OrderHistory)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_PRODUCT_ID");
+
+                entity.HasOne(d => d.Store)
+                    .WithMany(p => p.OrderHistory)
+                    .HasForeignKey(d => d.StoreId)
+                    .HasConstraintName("FK_STORE_ID");
+            });
+
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.Property(e => e.ProductId)
-                    .HasColumnName("productId")
-                    .HasMaxLength(10);
+                entity.Property(e => e.ProductId).HasColumnName("productId");
 
                 entity.Property(e => e.ProductDescription)
                     .IsRequired()
@@ -51,14 +76,12 @@ namespace Project0.DataAccess.Model
 
                 entity.Property(e => e.ProductPrice)
                     .HasColumnName("productPrice")
-                    .HasColumnType("decimal(18, 0)");
+                    .HasColumnType("decimal(5, 2)");
             });
 
             modelBuilder.Entity<Store>(entity =>
             {
-                entity.Property(e => e.StoreId)
-                    .HasColumnName("storeId")
-                    .HasMaxLength(10);
+                entity.Property(e => e.StoreId).HasColumnName("storeId");
 
                 entity.Property(e => e.StoreAddress)
                     .HasColumnName("storeAddress")
@@ -68,6 +91,28 @@ namespace Project0.DataAccess.Model
                     .IsRequired()
                     .HasColumnName("storeName")
                     .HasMaxLength(30);
+            });
+
+            modelBuilder.Entity<StoreInventory>(entity =>
+            {
+                entity.HasKey(e => e.StoreInvId)
+                    .HasName("PK__StoreInv__176770658DB426DC");
+
+                entity.Property(e => e.StoreInvId).HasColumnName("storeInvId");
+
+                entity.Property(e => e.ProductId).HasColumnName("productId");
+
+                entity.Property(e => e.StoreId).HasColumnName("storeId");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.StoreInventory)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_PRODUCT");
+
+                entity.HasOne(d => d.Store)
+                    .WithMany(p => p.StoreInventory)
+                    .HasForeignKey(d => d.StoreId)
+                    .HasConstraintName("FK_STORE");
             });
 
             OnModelCreatingPartial(modelBuilder);

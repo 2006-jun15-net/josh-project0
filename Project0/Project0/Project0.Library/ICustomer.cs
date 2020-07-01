@@ -2,9 +2,9 @@ namespace Project0.Library
 {
     internal interface ICustomer
     {
-        string customerId { get; }
-        string firstName { get; set; }
-        string lastName { get; set; }
+        int CustomerId { get; }
+        string FirstName { get; set; }
+        string LastName { get; set; }
         // string defaultStore {get; set; }
     }
 }

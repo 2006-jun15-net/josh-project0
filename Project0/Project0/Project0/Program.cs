@@ -1,45 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
+using Project0.DataAccess;
+using Project0.DataAccess.Model;
 using Project0.Library;
 
 namespace Project0.ConsoleApp
 {
     class Program
     {
+
+        public static readonly DbContextOptions<project0Context> options = new DbContextOptionsBuilder<project0Context>()
+                .UseSqlServer(SecretConfiguration.ConnectionString)
+                .Options;
+
+
         static void Main(string[] args)
         {
             //https://github.com/2006-jun15-net/trainer-code/wiki/Project-0-requirements
 
             WelcomeMessage();
 
-            //Sample data
-            List<Product> products = new List<Product>();
-            List<Customer> customers = new List<Customer>();
+            List<Library.Product> products = new List<Library.Product>();
+            List<Library.Customer> customers = new List<Library.Customer>();
             List<Order> orders = new List<Order>();
             List<StoreLocation> stores = new List<StoreLocation>();
 
-            Product product1 = new Product("Pencils", 0.75);
-            Product product2 = new Product("Eraser", 0.50);
-            Product product3 = new Product("Pencil Case", 1.50);
+            using var context = new project0Context(options);
+            var custs = context.Customer.ToList();
+            var prods = context.Product.ToList();
+            var stor = context.Store.ToList();
 
-            products.Add(product1);
-            products.Add(product2);
-            products.Add(product3);
+            foreach(var entry in custs)
+            {
+                customers.Add(Mapper.MapDbEntryToCustomer(entry));
+            }
+            foreach(var entry in prods)
+            {
+                products.Add(Mapper.MapDbEntrytoProduct(entry));
+            }
+            foreach(var entry in stor)
+            {
+                stores.Add(Mapper.MapDbEntryToStoreLocation(entry));
+            }
+            foreach(var store in stores)
+            {
+                foreach (var prod in products)
+                {
+                    store.Inventory.Add(prod, 5);
+                }
+            }    
 
-            Customer cust1 = new Customer("Josh", "Bertrand");
 
-            customers.Add(cust1);
-
-            Dictionary<Product, int> sampleProductInv = new Dictionary<Product, int>();
-            sampleProductInv.Add(product1, 2);
-            sampleProductInv.Add(product2, 1);
-
-            StoreLocation store1 = new StoreLocation("Bookstore", "123 Here Street", sampleProductInv);
-            stores.Add(store1);
-
-            Order order = new Order();
-            // bool isSuccessful;
-            // isSuccessful = firstOrder.Checkout(store1, cust1);
+            Order currentOrder = new Order();
+            Library.Customer currentCustomer = null ;
+            StoreLocation currentStore = null;
 
             bool runProgram = true;
 
@@ -56,15 +73,31 @@ namespace Project0.ConsoleApp
                         case "a":
                             Console.Write("You have chosen to Add a new customer");
                             customers.Add(AddCustomer());
-                            Console.Write("New customer successfully added.");
+                            break;
+                        case "c":
+                            Console.WriteLine("You have chosen to checkout");
+                            currentOrder.Checkout(currentStore, currentCustomer);
+                            break;
+                        case "cc":
+                            Console.WriteLine("Please choose the customer placing the order");
+                            currentCustomer = ChooseCustomer(customers);
+                            Console.WriteLine("Please choose the store you will place the order from");
+                            currentStore = ChooseStoreLocation(stores);
                             break;
                         case "d":
                             Console.Write("You have chosen to display order details");
-                            order.DisplayOrderDetails();
+                            currentOrder.DisplayOrderDetails();
                             break;
                         case "p":
-                            Console.Write("You have chosen to place a new order");
-                            //order.Checkout();
+                            try
+                            {
+                                Console.Write("You have chosen to place a new order");
+                                PlaceOrder(currentCustomer, currentStore, currentOrder, products);
+                            }
+                            catch (NullReferenceException)
+                            {
+                                Console.WriteLine("You must first choose a customer and store");
+                            }
                             break;
                         case "s":
                             Console.Write("You have chosen to search for a customer");
@@ -85,12 +118,33 @@ namespace Project0.ConsoleApp
             GoodbyeMessage();
 
             //place order
-            //add customer
             //search customers
             //display order details
             //display order history of store
             //display order history of customer
 
+        }
+
+        private static void PlaceOrder(Library.Customer cust, StoreLocation store, Order order, List<Library.Product> products)
+        {
+            int prodChoice, qtyChoice = -1;
+            try
+            {
+                Console.WriteLine($"{store.StoreName} has in stock: \n");
+                store.DisplayInventoryCatalog();
+
+                //ask if they would like to purchase an item
+                Console.WriteLine("Please select an item to purchase");
+                prodChoice = int.Parse(Console.ReadLine());
+                Console.WriteLine("Please enter a quantity you would like purchase");
+                qtyChoice = int.Parse(Console.ReadLine());
+
+                order.AddToCart(products[prodChoice], qtyChoice);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("You have selected an invalid option. Please allow an associate to assist you with your transaction.");
+            }
         }
 
         private static void GoodbyeMessage()
@@ -103,16 +157,32 @@ namespace Project0.ConsoleApp
             throw new NotImplementedException();
         }
 
-        private static Customer AddCustomer()
+        private static Library.Customer AddCustomer()
         {
             //get first and last name
+            using var context = new project0Context(options);
+            var custRepo = new CustomerRepository(context);
 
-            Console.Write("Please enter the given name of the new customer: ");
+
+            Console.Write("\nPlease enter the given name of the new customer: ");
             string firstName = Console.ReadLine();
-            Console.Write("Please enter the given name of the new customer: ");
+            Console.Write("\nPlease enter the surname of the new customer: ");
             string lastName = Console.ReadLine();
 
-            Customer newCustomer = new Customer(firstName, lastName);
+            Project0.Library.Customer newCustomer = new Project0.Library.Customer(firstName, lastName);
+
+            try
+            {
+                custRepo.Insert(newCustomer);
+                Console.Write("New customer successfully added.");
+                Console.WriteLine($"We welcome you as a valued customer {newCustomer.FirstName} {newCustomer.LastName}");
+            }
+            catch(InvalidOperationException e)
+            {
+                Console.WriteLine(e);
+
+                Console.WriteLine("There was an error processing your request.");
+            }
 
             return newCustomer;
         }
@@ -120,12 +190,14 @@ namespace Project0.ConsoleApp
         private static void DisplayMenu()
         {
             Console.WriteLine("\n\nOperations available are: ");
-            Console.WriteLine("-------------------------");
-            Console.Write("a | Add a new customer\n");
-            Console.Write("d | Display order details\n");
-            Console.Write("p | Place a new order\n");
-            Console.Write("s | Search for a customer\n");
-            Console.Write("x | Exit the program\n");
+            Console.WriteLine("----------------------------");
+            Console.Write("a  | Add a new customer\n");
+            Console.Write("c  | Checkout\n");
+            Console.Write("cc | Select customer and store\n");
+            Console.Write("d  | Display order details\n");
+            Console.Write("p  | Place a new order\n");
+            Console.Write("s  | Search for a customer\n");
+            Console.Write("x  | Exit the program\n");
         }
 
         private static void WelcomeMessage()
@@ -139,6 +211,12 @@ namespace Project0.ConsoleApp
             switch (input)
             {
                 case "a":
+                    isValid = true;
+                    break;
+                case "cc":
+                    isValid = true;
+                    break;
+                case "c":
                     isValid = true;
                     break;
                 case "d":
@@ -160,40 +238,100 @@ namespace Project0.ConsoleApp
 
             return isValid;
         }
-        private static string ChooseStoreLocation(List<StoreLocation> stores)
+        private static StoreLocation ChooseStoreLocation(List<StoreLocation> stores)
         {
-            string storeChoice;
+            StoreLocation storeChoice = null;
+            int userInput = -1;
             //display available stores
             bool validStore = false;
-            List<string> storeIds = new List<string>();
+            List<int> storeIds = new List<int>();
+
+            if (stores.Count > 0)
+            {
+                do
+                {
+                    foreach (var store in stores)
+                    {
+                        Console.WriteLine($"{store.StoreId} | {store.StoreName}");
+                        storeIds.Add(store.StoreId);
+                    }
+
+                    Console.Write("Which store would you like to place your order from? ");
+                    try
+                    {
+                        userInput = int.Parse(Console.ReadLine());
+                    
+
+                        if (storeIds.Contains(userInput))
+                        {
+                            validStore = true;
+                            storeChoice = stores[userInput - 1];
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid store selected.");
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("You have entered an invalid store ID.");
+                        continue;
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        Console.WriteLine("Invalid customer");
+                    }
+
+                } while (!validStore);
+            }
+            else
+            {
+                Console.WriteLine("There are no stores to order from");
+            }
+            return storeChoice;
+        }
+        private static Library.Customer ChooseCustomer(List<Library.Customer> customers)
+        {
+            Library.Customer customerChoice = null;
+            bool validCustomer = false;
+            int userInput = -1;
+            List<int> customerIds = new List<int>();
+
+            foreach(var cust in customers)
+            {
+                Console.WriteLine($"\n{cust.CustomerId} | {cust.FirstName} {cust.LastName}");
+                customerIds.Add(cust.CustomerId);
+            }
 
             do
             {
-                foreach (var store in stores)
+                Console.WriteLine("Please select a valid customer ID");
+                try
                 {
-                    Console.WriteLine(store.StoreId);
-                    storeIds.Add(store.StoreId);
+                    userInput = int.Parse(Console.ReadLine());
+               
+
+                    if (customerIds.Contains(userInput))
+                    {
+                        validCustomer = true;
+                        customerChoice = customers[userInput - 1];
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid customer selection");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid entry");
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    Console.WriteLine("Invalid customer");
                 }
 
-                Console.Write("Which store would you like to place your order from? ");
-                storeChoice = Console.ReadLine();
+            } while (!validCustomer);
 
-                if(storeIds.Contains(storeChoice))
-                {
-                    validStore = true;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid store selected.");
-                }
-
-            } while (!validStore);
-
-            return storeChoice;
-        }
-        private static string ChooseCustomer(List<Customer> customers)
-        {
-            string customerChoice = "";
             return customerChoice;
         }
     }

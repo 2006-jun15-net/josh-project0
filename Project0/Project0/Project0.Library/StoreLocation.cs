@@ -7,10 +7,10 @@ namespace Project0.Library
     public class StoreLocation
     {
 
-        public string StoreId {get; set; }
+        public int StoreId {get; set; }
         public string StoreName { get; set; }
         public string StoreAddress { get; set; }
-        private Dictionary<Product, int> Inventory { get; set; }//current inventory. A Set may work a little better here. 
+        public Dictionary<Product, int> Inventory { get; set; }//current inventory. A Set may work a little better here. 
 
         /// <summary>
         /// Constructor for a store without an inventory
@@ -19,7 +19,6 @@ namespace Project0.Library
         /// <param name="address"></param>
         public StoreLocation(string name, string address)
         {
-            StoreId = IdFactory.generateNewId();
             StoreName = name;
             StoreAddress = address;
             Inventory = new Dictionary<Product, int>();
@@ -33,10 +32,17 @@ namespace Project0.Library
         /// <param name="inv"></param>
         public StoreLocation(string name, string address, Dictionary<Product, int> inv)
         {
-            StoreId = IdFactory.generateNewId();
             StoreName = name;
             StoreAddress = address;
             Inventory = inv;
+        }
+
+        public StoreLocation(int id, string name, string address)
+        {
+            StoreId = id;
+            StoreName = name;
+            StoreAddress = address;
+            Inventory = new Dictionary<Product, int>();
         }
 
         /// <summary>
@@ -72,10 +78,12 @@ namespace Project0.Library
         /// </summary>
         public void DisplayInventoryCatalog()
         {
+            int prodCounter = 0;
             foreach(var prod in Inventory)
             {
                 //print out the description (item name) and quantity
-                Console.WriteLine($"{prod.Key}\t|\t{prod.Value}");
+                Console.WriteLine($"{prodCounter}|\t{prod.Key.ProductDescription}\t\t|\t{prod.Value} |\t {prod.Key.ProductPrice}");
+                prodCounter++;
             }
         }
         /// <summary>
@@ -91,7 +99,7 @@ namespace Project0.Library
 
             foreach(var prod in cart)
             {
-                if(Inventory.ContainsKey(prod.Key) && prod.Value <= 10)// checks if the item is in the inventory, and if a reasonable amount is being ordered.
+                if(Inventory.ContainsKey(prod.Key) && prod.Value <= 5)// checks if the item is in the inventory, and if a reasonable amount is being ordered.
                 {
                     isValid = true;
                 }
@@ -114,12 +122,14 @@ namespace Project0.Library
                 if (Inventory.TryGetValue(key, out int value))//Item has more than one in stock
                 {
                     if(value > 1) 
-                    { 
+                    {
                         //decrement
+                        value -= 1;
                     }
                     else
                     {
                         //remove
+                        Inventory.Remove(key);
                     }
                 }
                 else//item not in inventory

@@ -6,10 +6,10 @@ namespace Project0.Library
     public class Order
     {
         //orderID
-        public string OrderId { get; }
-        private string StoreId { get; }
-        private string CustomerId { get; set; }
-        private DateTime OrderTime { get; set; }
+        public int OrderId { get; set; }
+        private int StoreId { get; set; }
+        private int CustomerId { get; set; }
+        //private DateTime OrderTime { get; set; }
 
         public Dictionary<Product, int> shoppingCart;
 
@@ -18,7 +18,7 @@ namespace Project0.Library
         {
             shoppingCart = new Dictionary<Product, int>();
         }
-        public Order(string store, string cust)
+        public Order(int store, int cust)
         {
             StoreId = store;
             CustomerId = cust;
@@ -33,12 +33,18 @@ namespace Project0.Library
         /// <returns></returns>
         public bool Checkout(StoreLocation store, Customer cust)
         {
+            double totalCost = 0;
             bool checkoutSuccessful = false;
             //set the orderTime for when the order processes
 
             if (shoppingCart.Count > 0)
             {
-                OrderTime = new DateTime();
+                //OrderTime = new DateTime();
+
+                foreach(var item in shoppingCart)
+                {
+                    totalCost += item.Key.ProductPrice;
+                }
 
                 checkoutSuccessful = store.FulfillOrder(shoppingCart);
 
@@ -47,7 +53,9 @@ namespace Project0.Library
                 {
                     //create the order through the repo
                     //add order to history if successful
-
+                    Console.WriteLine("Checkout successful");
+                    Console.Write($"Your total cost today is: {totalCost}");
+                    shoppingCart.Clear();
                 }
             }
             else
@@ -67,6 +75,7 @@ namespace Project0.Library
         {
             //get the ID or description of the product and the quantity desired. Add those values to to the cart 
             shoppingCart.Add(item, qty);
+            Console.WriteLine($"{item.ProductDescription} added to cart");
         }
 
         /// <summary>
@@ -88,6 +97,5 @@ namespace Project0.Library
                 Console.WriteLine("You have no items in your shopping cart.");
             }
         }
-        //public void RemoveFromCart(Product item, int qty){}
     }
 }

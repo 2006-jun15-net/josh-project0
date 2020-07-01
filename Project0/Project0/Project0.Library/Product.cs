@@ -2,16 +2,14 @@ namespace Project0.Library
 {
     public class Product
     {
-        public string ProductID { get; }
+        public int ProductID { get; set; }
         public string ProductDescription { get; }
         public double ProductPrice { get; set; }
 
-        public Product(string description, double price)
+        public Product(int prodId, string description, double price)
         {
-            ProductID = IdFactory.generateNewId();
-
+            ProductID = prodId;
             ProductDescription = description;
-
             ProductPrice = price;
         }
     }

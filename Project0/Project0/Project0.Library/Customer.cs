@@ -6,15 +6,21 @@ namespace Project0.Library
     {
 
         //Create a Customer interface, and extend two types of Customers from it, StandardCustomer and ValuedCustomer
-        public string customerId { get;}
-        public string firstName { get; set; }
-        public string lastName { get; set; }
+        public int CustomerId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
+        public Customer(int _id, string _first, string _last)
+        {
+            CustomerId = _id;
+            FirstName = _first;
+            LastName = _last;
+        }
         public Customer(string newCustFirstName, string newCustLastName)
         {
-            customerId = IdFactory.generateNewId();
-            firstName = newCustFirstName;
-            lastName = newCustLastName;
+            CustomerId = 0;
+            FirstName = newCustFirstName;
+            LastName = newCustLastName;
         }
 
     }

@@ -5,8 +5,15 @@ namespace Project0.DataAccess.Model
 {
     public partial class Customer
     {
-        public string CustomerId { get; set; }
+        public Customer()
+        {
+            OrderHistory = new HashSet<OrderHistory>();
+        }
+
+        public int CustomerId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public virtual ICollection<OrderHistory> OrderHistory { get; set; }
     }
 }
