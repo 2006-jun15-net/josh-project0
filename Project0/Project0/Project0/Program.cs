@@ -101,7 +101,7 @@ namespace Project0.ConsoleApp
                             break;
                         case "s":
                             Console.Write("You have chosen to search for a customer");
-                            SearchForCustomer();
+                            SearchForCustomer(customers);
                             break;
                         case "x":
                             Console.Write("You have chosen to Exit the program");
@@ -152,9 +152,42 @@ namespace Project0.ConsoleApp
             Console.WriteLine("\nThank you for visting our store. Please come again!");
         }
 
-        private static void SearchForCustomer()
+        private static void SearchForCustomer(List<Library.Customer> customers)
         {
-            throw new NotImplementedException();
+            Library.Customer customerChoice = null;
+            int userInput = -1;
+            List<int> customerIds = new List<int>();
+
+            foreach (var cust in customers)
+            {
+                
+                customerIds.Add(cust.CustomerId);
+            }
+            Console.WriteLine("Please enter a valid customer ID to search for");
+            try
+            {
+                userInput = int.Parse(Console.ReadLine());
+
+                if (customerIds.Contains(userInput))
+                {
+                    customerChoice = customers[userInput - 1];
+                    Console.WriteLine($"Customer with ID {userInput} found.");
+                    Console.WriteLine($"Customer is: {customerChoice.FirstName} {customerChoice.LastName}");
+
+                }
+                else
+                {
+                    Console.WriteLine("Invalid customer selection");
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid entry");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("Invalid customer");
+            }
         }
 
         private static Library.Customer AddCustomer()

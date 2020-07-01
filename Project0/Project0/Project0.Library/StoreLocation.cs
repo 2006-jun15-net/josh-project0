@@ -6,10 +6,21 @@ namespace Project0.Library
 {
     public class StoreLocation
     {
-
+        /// <summary>
+        /// Unique Id for the store
+        /// </summary>
         public int StoreId {get; set; }
+        /// <summary>
+        /// Name of the store
+        /// </summary>
         public string StoreName { get; set; }
+        /// <summary>
+        /// Address of the store
+        /// </summary>
         public string StoreAddress { get; set; }
+        /// <summary>
+        /// Current store inventory
+        /// </summary>
         public Dictionary<Product, int> Inventory { get; set; }//current inventory. A Set may work a little better here. 
 
         /// <summary>
@@ -37,6 +48,12 @@ namespace Project0.Library
             Inventory = inv;
         }
 
+        /// <summary>
+        /// Constructor for importing store data from the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="address"></param>
         public StoreLocation(int id, string name, string address)
         {
             StoreId = id;
@@ -125,6 +142,7 @@ namespace Project0.Library
                     {
                         //decrement
                         value -= 1;
+                        Inventory[key] = value;
                     }
                     else
                     {
@@ -134,7 +152,7 @@ namespace Project0.Library
                 }
                 else//item not in inventory
                 {
-                    
+                    Console.WriteLine($"Sorry, we appear to be out of stock of {key.ProductDescription}"); 
                 }
             }
             catch(InvalidOperationException e)

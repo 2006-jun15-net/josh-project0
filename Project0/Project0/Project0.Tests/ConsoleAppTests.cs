@@ -3,10 +3,10 @@ using Xunit;
 
 namespace Project0.Tests
 {
-    public class UnitTest1
+    public class CustomerTest
     {
         [Fact]
-        public void Test1()
+        public void OnlyValidValuesAllowed()
         {
 
         }
