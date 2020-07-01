@@ -117,12 +117,6 @@ namespace Project0.ConsoleApp
 
             GoodbyeMessage();
 
-            //place order
-            //search customers
-            //display order details
-            //display order history of store
-            //display order history of customer
-
         }
 
         private static void PlaceOrder(Library.Customer cust, StoreLocation store, Order order, List<Library.Product> products)
@@ -208,7 +202,7 @@ namespace Project0.ConsoleApp
             {
                 custRepo.Insert(newCustomer);
                 Console.Write("New customer successfully added.");
-                Console.WriteLine($"We welcome you as a valued customer {newCustomer.FirstName} {newCustomer.LastName}");
+                Console.WriteLine($"\nWe welcome you as a valued customer {newCustomer.FirstName} {newCustomer.LastName}");
             }
             catch(InvalidOperationException e)
             {

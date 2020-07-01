@@ -76,7 +76,7 @@ namespace Project0.Library
             {
                 foreach(var prod in cart)
                 {
-                    RemoveItemFromInventory(prod.Key);
+                    RemoveItemFromInventory(prod.Key, prod.Value);
                     orderFulfilled = true;
                 }
             }
@@ -132,23 +132,23 @@ namespace Project0.Library
         /// Remove an item from the inventory. If there are more than one of that item, decrement its quantity. If there is only one, remove it from the inventory completely.
         /// </summary>
         /// <param name="key"></param>
-        private void RemoveItemFromInventory(Product key)
+        private void RemoveItemFromInventory(Product key, int qty)
         {
             try
             {
                 if (Inventory.TryGetValue(key, out int value))//Item has more than one in stock
                 {
-                    if(value > 1) 
+                    if(value > 0) 
                     {
                         //decrement
-                        value -= 1;
+                        value -= qty;
                         Inventory[key] = value;
                     }
-                    else
-                    {
+                    //else
+                    //{
                         //remove
-                        Inventory.Remove(key);
-                    }
+                    //    Inventory.Remove(key);
+                    //}
                 }
                 else//item not in inventory
                 {

@@ -57,6 +57,10 @@ namespace Project0.Library
                     Console.Write($"Your total cost today is: {totalCost}");
                     shoppingCart.Clear();
                 }
+                else
+                {
+                    shoppingCart.Clear();
+                }
             }
             else
             {
@@ -86,7 +90,7 @@ namespace Project0.Library
 
             if (shoppingCart.Count > 0)
             {
-                Console.WriteLine($"Items in your shopping cart:\nProduct \t | quantity");
+                Console.WriteLine($"\nItems in your shopping cart:\nProduct \t | quantity");
                 foreach (var item in shoppingCart)
                 {
                     Console.WriteLine($"{item.Key.ProductDescription}\t |{item.Value}");
@@ -94,7 +98,7 @@ namespace Project0.Library
             }
             else
             {
-                Console.WriteLine("You have no items in your shopping cart.");
+                Console.WriteLine("\nYou have no items in your shopping cart.");
             }
         }
     }
