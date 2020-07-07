@@ -11,11 +11,19 @@ namespace Project0.DataAccess
 
         private readonly project0Context _dbContext;//This is the Customer in the Model folder
 
+        /// <summary>
+        /// Repository for the Customer object.
+        /// </summary>
+        /// <param name="dbContext"></param>
         public CustomerRepository(project0Context dbContext)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
+        /// <summary>
+        /// Delete Customer object from DB.
+        /// </summary>
+        /// <param name="id"></param>
         public void Delete(object id)
         {
             Customer entity = _dbContext.Customer.Find(id);
@@ -23,6 +31,10 @@ namespace Project0.DataAccess
             Save();
         }
 
+        /// <summary>
+        /// Get all records from Customer table in the database.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Customer> GetAll()
         {
             IQueryable<Customer> items = _dbContext.Customer
