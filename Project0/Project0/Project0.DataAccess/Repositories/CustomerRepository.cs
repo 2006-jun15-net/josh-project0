@@ -39,8 +39,15 @@ namespace Project0.DataAccess
 
         public void Insert(Project0.Library.Customer obj)
         {
+            try
+            {
             Customer entity = Mapper.MapCustomerToDbEntry(obj);
             _dbContext.Add(entity);
+            }
+            catch(Exception)
+            {
+                Console.WriteLine("The Customer could not be inserted into the database (Invalid Input)");
+            }
             Save();
         }
 
