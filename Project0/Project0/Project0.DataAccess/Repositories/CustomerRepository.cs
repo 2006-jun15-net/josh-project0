@@ -6,7 +6,9 @@ using Project0.DataAccess.Model;
 
 namespace Project0.DataAccess
 {
+
     public class CustomerRepository
+  
     {
 
         private readonly project0Context _dbContext;//This is the Customer in the Model folder
